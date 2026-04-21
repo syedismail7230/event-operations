@@ -30,6 +30,16 @@ export { io };
 app.use(cors());
 app.use(express.json());
 
+// Real-time API traffic tracking
+declare global {
+  var apiHits: number;
+}
+global.apiHits = 0;
+app.use((req, res, next) => {
+  global.apiHits++;
+  next();
+});
+
 app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/event', eventRoutes);
@@ -68,5 +78,11 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server & WebSocket are running on port ${PORT}`);
+  console.log(`Command Center API Online: Port ${PORT}`);
 });
+
+
+
+
+
+

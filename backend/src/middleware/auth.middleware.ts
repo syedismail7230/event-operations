@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { admin } from '../lib/firebase-admin';
+import jwt from 'jsonwebtoken';
+import { PrismaClient } from '@prisma/client';
 
-// JWT_SECRET is no longer needed locally as firebase handles it
+const prisma = new PrismaClient();
 
 export interface AuthRequest extends Request {
   user?: { id: string; role: string; organizationId: string | null };
@@ -14,13 +16,36 @@ export const authenticateJWT = async (req: AuthRequest, res: Response, next: Nex
     const token = authHeader.split(' ')[1];
 
     try {
+      // 1. Try resolving Local JWT
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'super-secret-key-for-dev') as any;
+        req.user = { id: decoded.id, role: decoded.role, organizationId: decoded.organizationId };
+        return next();
+      } catch (jwtErr) {
+        // Fallthrough if it's not a local JSON token
+      }
+
+      // 2. Try resolving Firebase OAuth Token
       const decodedToken = await admin.auth().verifyIdToken(token);
-      // Retrieve user from DB to inject RBAC role
-      // Mocked here since DB fetch requires Prisma client import
-      req.user = { id: decodedToken.uid, role: 'ATTENDEE', organizationId: null };
+      
+      if (!decodedToken.email) {
+         res.status(400).json({ error: 'Firebase token missing email scope' });
+         return;
+      }
+
+      const dbUser = await prisma.user.findUnique({
+        where: { email: decodedToken.email }
+      });
+
+      if (!dbUser) {
+        res.status(403).json({ error: 'Sync pipeline incomplete; user missing in DB' });
+        return;
+      }
+
+      req.user = { id: dbUser.id, role: dbUser.role, organizationId: dbUser.organizationId };
       next();
     } catch (err) {
-      res.status(403).json({ error: 'Invalid or expired Firebase token' });
+      res.status(403).json({ error: 'Invalid or expired authentication token' });
     }
   } else {
     res.status(401).json({ error: 'Authorization header missing' });
