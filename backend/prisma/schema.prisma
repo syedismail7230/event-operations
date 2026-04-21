@@ -47,3 +47,31 @@ model Event {
   
   organization   Organization @relation(fields: [organizationId], references: [id])
 }
+
+model AuditLog {
+  id             String       @id @default(cuid())
+  action         String
+  targetType     String
+  targetId       String
+  actorId        String
+  details        String?
+  createdAt      DateTime     @default(now())
+}
+
+model FeatureToggle {
+  id             String       @id @default(cuid())
+  key            String       @unique
+  isEnabled      Boolean      @default(false)
+  description    String?
+  updatedAt      DateTime     @updatedAt
+}
+
+model Subscription {
+  id             String       @id @default(cuid())
+  organizationId String       @unique
+  planLevel      String       @default("TRIAL") // TRIAL, PROFESSIONAL, ENTERPRISE
+  status         String       @default("ACTIVE")
+  mrrAmount      Float        @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}

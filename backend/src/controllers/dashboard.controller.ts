@@ -3,7 +3,8 @@ import { AuthRequest } from '../middleware/auth.middleware';
 import { PrismaClient } from '@prisma/client';
 import os from 'os';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient() as any;
+import { io } from '../server';
 
 export const getRootMetrics = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
@@ -52,8 +53,8 @@ export const getRootMetrics = async (req: AuthRequest, res: Response): Promise<v
     // Since users don't have persistent GPS columns tracked in DB yet, we natively pull the 
     // geofence centers of ALL absolutely live events directly from database to populate the map.
     const mapNodes = activeEventsList
-      .filter(ev => ev.latitude && ev.longitude)
-      .map(ev => ({
+      .filter((ev: any) => ev.latitude && ev.longitude)
+      .map((ev: any) => ({
         id: ev.id,
         name: ev.name,
         type: 'event',
@@ -205,5 +206,86 @@ export const modifyUserIAM = async (req: AuthRequest, res: Response): Promise<vo
     res.json({ success: true, message: `User IAM modified: ${action}` });
   } catch (error) {
     res.status(500).json({ error: 'Failed to modify User IAM' });
+  }
+};
+
+// ==========================================
+// PHASE 3: ZERO-MOCK TELEMETRY IMPLEMENTATION
+// ==========================================
+
+export const getAuditLogs = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const logs = await prisma.auditLog.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 100
+    });
+    res.json(logs);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch Audit Logs' });
+  }
+};
+
+export const getFeatureToggles = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const features = await prisma.featureToggle.findMany();
+    res.json(features);
+  } catch(e) {
+    res.status(500).json({ error: 'Failed to fetch features' });
+  }
+};
+
+export const toggleFeature = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { key, isEnabled } = req.body;
+    const toggled = await prisma.featureToggle.upsert({
+      where: { key },
+      update: { isEnabled },
+      create: { key, isEnabled, description: `Dynamic trigger for ${key}` }
+    });
+    // Physically broadcast toggle state to all active client streams
+    io.emit('feature_toggle_sync', { key, isEnabled });
+    res.json({ success: true, feature: toggled });
+  } catch(e) {
+    res.status(500).json({ error: 'Failed' });
+  }
+};
+
+export const getSubscriptions = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const subs: any[] = await prisma.subscription.findMany();
+    const orgs: any[] = await prisma.organization.findMany({
+      where: { id: { in: subs.map((s: any) => s.organizationId) } }
+    });
+    
+    const mappedSubs = subs.map((sub: any) => {
+      const org = orgs.find((o: any) => o.id === sub.organizationId);
+      return { ...sub, organization: org ? { name: org.name } : null };
+    });
+    
+    res.json(mappedSubs);
+  } catch(e) {
+    res.status(500).json({ error: 'Failed fetching subs' });
+  }
+};
+
+export const emergencyHaltEvent = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { eventId } = req.body;
+    // Log the action legally in the AuditLog
+    await prisma.auditLog.create({
+      data: {
+        action: 'EMERGENCY_HALT',
+        targetType: 'EVENT',
+        targetId: eventId,
+        actorId: req.user?.id || 'SYSTEM'
+      }
+    });
+    
+    // Physically override 1000+ localized react clients sitting in that event room
+    io.to(`event_${eventId}`).emit('EMERGENCY_HALT', { message: 'NOC Directive: Terminate Operations' });
+    
+    res.json({ success: true, message: 'Broadcast intercept fired' });
+  } catch(error) {
+    res.status(500).json({ error: 'Failed event halt' });
   }
 };

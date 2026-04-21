@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getRootMetrics, getOrgMetrics, getPendingUsers, approveUser, getAllUsers, suspendOrganization, modifyUserIAM } from '../controllers/dashboard.controller';
+import { getRootMetrics, getOrgMetrics, getPendingUsers, approveUser, getAllUsers, suspendOrganization, modifyUserIAM, getAuditLogs, getFeatureToggles, toggleFeature, getSubscriptions, emergencyHaltEvent } from '../controllers/dashboard.controller';
 import { authenticateJWT, requireRole } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -11,6 +11,13 @@ router.get('/root/all-users', authenticateJWT, requireRole(['ROOT_ADMIN']), getA
 router.post('/root/approve-user', authenticateJWT, requireRole(['ROOT_ADMIN']), approveUser);
 router.post('/root/organization/suspend', authenticateJWT, requireRole(['ROOT_ADMIN']), suspendOrganization);
 router.post('/root/users/iam', authenticateJWT, requireRole(['ROOT_ADMIN']), modifyUserIAM);
+
+// Real-Time Subsystems
+router.get('/root/audit', authenticateJWT, requireRole(['ROOT_ADMIN']), getAuditLogs);
+router.get('/root/features', authenticateJWT, requireRole(['ROOT_ADMIN']), getFeatureToggles);
+router.post('/root/features/toggle', authenticateJWT, requireRole(['ROOT_ADMIN']), toggleFeature);
+router.get('/root/billing', authenticateJWT, requireRole(['ROOT_ADMIN']), getSubscriptions);
+router.post('/root/events/halt', authenticateJWT, requireRole(['ROOT_ADMIN']), emergencyHaltEvent);
 
 // Org Admin Only
 router.get('/org/metrics', authenticateJWT, requireRole(['ORG_ADMIN']), getOrgMetrics);
