@@ -153,3 +153,57 @@ export const approveUser = async (req: AuthRequest, res: Response): Promise<void
     res.status(500).json({ error: 'Failed to approve user' });
   }
 };
+
+export const suspendOrganization = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { orgId, status } = req.body;
+    
+    await prisma.organization.update({
+      where: { id: orgId },
+      data: { status }
+    });
+
+    if (status === 'SUSPENDED') {
+      await prisma.user.updateMany({
+        where: { organizationId: orgId, role: { not: 'ROOT_ADMIN' } },
+        data: { status: 'SUSPENDED' }
+      });
+    } else if (status === 'ACTIVE') {
+      await prisma.user.updateMany({
+        where: { organizationId: orgId, role: { not: 'ROOT_ADMIN' } },
+        data: { status: 'ACTIVE' }
+      });
+    }
+    
+    res.json({ success: true, message: `Organization status set to ${status}` });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update organization status' });
+  }
+};
+
+export const modifyUserIAM = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { userId, action, role } = req.body;
+    
+    if (action === 'FORCE_LOGOUT' || action === 'SUSPEND') {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { status: 'SUSPENDED' }
+      });
+    } else if (action === 'CHANGE_ROLE' && role) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { role }
+      });
+    } else if (action === 'ACTIVATE') {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { status: 'ACTIVE' }
+      });
+    }
+    
+    res.json({ success: true, message: `User IAM modified: ${action}` });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to modify User IAM' });
+  }
+};
