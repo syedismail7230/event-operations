@@ -75,3 +75,26 @@ model Subscription {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 }
+
+model SupportTicket {
+  id             String       @id @default(cuid())
+  tenantId       String
+  subject        String
+  priority       String       @default("LOW") // LOW, HIGH, CRITICAL
+  status         String       @default("OPEN")
+  createdAt      DateTime     @default(now())
+}
+
+model SystemNotification {
+  id             String       @id @default(cuid())
+  message        String
+  type           String       @default("INFO") // INFO, URGENT
+  createdAt      DateTime     @default(now())
+}
+
+model GlobalPlatformConfig {
+  id             String       @id @default(cuid())
+  key            String       @unique
+  value          String
+  updatedAt      DateTime     @updatedAt
+}

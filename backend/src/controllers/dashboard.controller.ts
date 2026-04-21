@@ -289,3 +289,65 @@ export const emergencyHaltEvent = async (req: AuthRequest, res: Response): Promi
     res.status(500).json({ error: 'Failed event halt' });
   }
 };
+
+// ==========================================
+// PHASE 4: THE FINAL CORE SWEEP
+// ==========================================
+
+export const getSupportTickets = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const tickets: any[] = await prisma.supportTicket.findMany({ orderBy: { createdAt: 'desc' } });
+    res.json(tickets);
+  } catch(e) { res.status(500).json({ error: 'Failed' }); }
+};
+
+export const getSystemNotifications = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const notifs: any[] = await prisma.systemNotification.findMany({ orderBy: { createdAt: 'desc' } });
+    res.json(notifs);
+  } catch(e) { res.status(500).json({ error: 'Failed' }); }
+};
+
+export const broadcastNotification = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { message, type } = req.body;
+    const notif = await prisma.systemNotification.create({ data: { message, type } });
+    io.emit('global_notification', notif);
+    res.json(notif);
+  } catch(e) { res.status(500).json({ error: 'Failed' }); }
+};
+
+export const getSecurityEvents = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const logs: any[] = await prisma.auditLog.findMany({
+      where: { action: { in: ['FORCE_LOGOUT', 'SUSPENDED', 'ROLE_MUTATION'] } },
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(logs);
+  } catch(e) { res.status(500).json({ error: 'Failed' }); }
+};
+
+export const getPlatformSettings = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const settings: any[] = await prisma.globalPlatformConfig.findMany();
+    res.json(settings);
+  } catch(e) { res.status(500).json({ error: 'Failed' }); }
+};
+
+export const getSystemHealthLayer = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const start = Date.now();
+    await prisma.$queryRaw`SELECT 1`;
+    const latency = Date.now() - start;
+    
+    res.json({
+      status: 'OPERATIONAL',
+      dbLatencyMs: latency,
+      freeMemoryBytes: os.freemem(),
+      totalMemoryBytes: os.totalmem(),
+      uptimeSeconds: os.uptime()
+    });
+  } catch(e) {
+    res.status(500).json({ error: 'Health Check Failed' });
+  }
+};

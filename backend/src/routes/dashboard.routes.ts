@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getRootMetrics, getOrgMetrics, getPendingUsers, approveUser, getAllUsers, suspendOrganization, modifyUserIAM, getAuditLogs, getFeatureToggles, toggleFeature, getSubscriptions, emergencyHaltEvent } from '../controllers/dashboard.controller';
+import { getRootMetrics, getOrgMetrics, getPendingUsers, approveUser, getAllUsers, suspendOrganization, modifyUserIAM, getAuditLogs, getFeatureToggles, toggleFeature, getSubscriptions, emergencyHaltEvent, getSupportTickets, getSystemNotifications, broadcastNotification, getSecurityEvents, getPlatformSettings, getSystemHealthLayer } from '../controllers/dashboard.controller';
 import { authenticateJWT, requireRole } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -18,6 +18,14 @@ router.get('/root/features', authenticateJWT, requireRole(['ROOT_ADMIN']), getFe
 router.post('/root/features/toggle', authenticateJWT, requireRole(['ROOT_ADMIN']), toggleFeature);
 router.get('/root/billing', authenticateJWT, requireRole(['ROOT_ADMIN']), getSubscriptions);
 router.post('/root/events/halt', authenticateJWT, requireRole(['ROOT_ADMIN']), emergencyHaltEvent);
+
+// Phase 4 Extensions
+router.get('/root/support', authenticateJWT, requireRole(['ROOT_ADMIN']), getSupportTickets);
+router.get('/root/notifications', authenticateJWT, requireRole(['ROOT_ADMIN']), getSystemNotifications);
+router.post('/root/notifications/broadcast', authenticateJWT, requireRole(['ROOT_ADMIN']), broadcastNotification);
+router.get('/root/security', authenticateJWT, requireRole(['ROOT_ADMIN']), getSecurityEvents);
+router.get('/root/settings', authenticateJWT, requireRole(['ROOT_ADMIN']), getPlatformSettings);
+router.get('/root/health', authenticateJWT, requireRole(['ROOT_ADMIN']), getSystemHealthLayer);
 
 // Org Admin Only
 router.get('/org/metrics', authenticateJWT, requireRole(['ORG_ADMIN']), getOrgMetrics);
