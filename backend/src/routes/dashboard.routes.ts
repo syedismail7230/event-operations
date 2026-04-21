@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getRootMetrics, getOrgMetrics, getPendingUsers, approveUser, getAllUsers, suspendOrganization, modifyUserIAM, getAuditLogs, getFeatureToggles, toggleFeature, getSubscriptions, emergencyHaltEvent, getSupportTickets, getSystemNotifications, broadcastNotification, getSecurityEvents, getPlatformSettings, getSystemHealthLayer } from '../controllers/dashboard.controller';
+import { getRootMetrics, getOrgMetrics, getPendingUsers, approveUser, getAllUsers, suspendOrganization, modifyUserIAM, getAuditLogs, getFeatureToggles, toggleFeature, getSubscriptions, emergencyHaltEvent, getSupportTickets, getSystemNotifications, broadcastNotification, getSecurityEvents, getPlatformSettings, getSystemHealthLayer, getOrganizationDetails, getPublicEvents } from '../controllers/dashboard.controller';
 import { authenticateJWT, requireRole } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -10,6 +10,7 @@ router.get('/root/pending-users', authenticateJWT, requireRole(['ROOT_ADMIN']), 
 router.get('/root/all-users', authenticateJWT, requireRole(['ROOT_ADMIN']), getAllUsers);
 router.post('/root/approve-user', authenticateJWT, requireRole(['ROOT_ADMIN']), approveUser);
 router.post('/root/organization/suspend', authenticateJWT, requireRole(['ROOT_ADMIN']), suspendOrganization);
+router.get('/root/organization/:id', authenticateJWT, requireRole(['ROOT_ADMIN']), getOrganizationDetails);
 router.post('/root/users/iam', authenticateJWT, requireRole(['ROOT_ADMIN']), modifyUserIAM);
 
 // Real-Time Subsystems
@@ -18,6 +19,9 @@ router.get('/root/features', authenticateJWT, requireRole(['ROOT_ADMIN']), getFe
 router.post('/root/features/toggle', authenticateJWT, requireRole(['ROOT_ADMIN']), toggleFeature);
 router.get('/root/billing', authenticateJWT, requireRole(['ROOT_ADMIN']), getSubscriptions);
 router.post('/root/events/halt', authenticateJWT, requireRole(['ROOT_ADMIN']), emergencyHaltEvent);
+
+// Public Layer
+router.get('/public/events', authenticateJWT, getPublicEvents);
 
 // Phase 4 Extensions
 router.get('/root/support', authenticateJWT, requireRole(['ROOT_ADMIN']), getSupportTickets);

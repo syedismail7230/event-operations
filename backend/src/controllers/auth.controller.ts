@@ -81,6 +81,56 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+export const register = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password, name, phone, role, organizationName } = req.body;
+
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      res.status(400).json({ error: 'Email already registered.' });
+      return;
+    }
+
+    let resolvedOrgId = null;
+
+    if (organizationName && organizationName.trim() !== '') {
+      let org = await prisma.organization.findUnique({ where: { name: organizationName } });
+      if (!org) {
+        org = await prisma.organization.create({ data: { name: organizationName } });
+      }
+      resolvedOrgId = org.id;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const mappedRole = role && ['ORG_ADMIN', 'MANAGER', 'VOLUNTEER', 'USER'].includes(role) ? role : 'USER';
+
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        name,
+        phone: phone || null,
+        role: mappedRole,
+        status: 'ACTIVE', // Automatically active so they can be routed to events page immediately
+        organizationId: resolvedOrgId
+      } as any
+    });
+
+    // Auto log them in post-registration
+    const token = jwt.sign(
+      { id: newUser.id, role: newUser.role, organizationId: newUser.organizationId },
+      process.env.JWT_SECRET || 'super-secret-key-for-dev',
+      { expiresIn: '24h' }
+    );
+
+    res.json({ token, user: { id: newUser.id, email: newUser.email, name: newUser.name, role: newUser.role } });
+  } catch (err) {
+    console.error('Registration Error', err);
+    res.status(500).json({ error: 'Failed to complete registration sequence.' });
+  }
+};
+
 export const getMe = async (req: any, res: Response): Promise<void> => {
   try {
     const user = await prisma.user.findUnique({

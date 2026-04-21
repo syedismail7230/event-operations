@@ -23,6 +23,7 @@ model User {
   email          String        @unique
   password       String
   name           String
+  phone          String?
   role           String        @default("ATTENDEE")
   status         String        @default("PENDING")
   organizationId String?

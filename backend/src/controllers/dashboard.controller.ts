@@ -77,6 +77,30 @@ export const getRootMetrics = async (req: AuthRequest, res: Response): Promise<v
   }
 };
 
+export const getOrganizationDetails = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const org = await prisma.organization.findUnique({
+      where: { id },
+      include: {
+        users: true,
+        events: true
+      }
+    });
+    
+    // Explicitly grab the nested subscription dynamically to avoid crashing the server if the user hasn't generated the schema yet
+    let sub = null;
+    try {
+      sub = await prisma.subscription.findUnique({ where: { organizationId: id } });
+    } catch(err) { /* schema hasn't updated yet */ }
+
+    if (!org) { res.status(404).json({ error: 'Tenant not found' }); return; }
+    res.json({ ...org, subscriptionId: sub?.id || org.subscriptionId });
+  } catch(e) {
+    res.status(500).json({ error: 'Failed' });
+  }
+};
+
 export const getOrgMetrics = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const orgId = req.user?.organizationId;
@@ -350,4 +374,14 @@ export const getSystemHealthLayer = async (req: AuthRequest, res: Response): Pro
   } catch(e) {
     res.status(500).json({ error: 'Health Check Failed' });
   }
+};
+
+export const getPublicEvents = async (req: any, res: Response): Promise<void> => {
+  try {
+    const events: any[] = await prisma.event.findMany({
+      include: { organization: true },
+      orderBy: { startTime: 'desc' }
+    });
+    res.json(events);
+  } catch(e) { res.status(500).json({ error: 'Failed to fetch public events' }); }
 };
