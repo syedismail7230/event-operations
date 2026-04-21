@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
+  events    Event[]
+}
+
+model User {
+  id             String       @id @default(cuid())
+  email          String       @unique
+  password       String
+  name           String
+  role           String       // ROOT_ADMIN, ORG_ADMIN, MANAGER, VOLUNTEER, ATTENDEE
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Event {
+  id             String       @id @default(cuid())
+  name           String
+  description    String?
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  startTime      DateTime
+  endTime        DateTime
+  latitude       Float?
+  longitude      Float?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
