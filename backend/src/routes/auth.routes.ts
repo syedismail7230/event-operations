@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { register, login, me } from '../controllers/auth.controller';
-import { authenticateJWT } from '../middleware/auth.middleware';
+import { syncFirebaseUser, getMe, login } from '../controllers/auth.controller';
+import { authenticateJWT, requireRole } from '../middleware/auth.middleware';
 
 const router = Router();
 
-router.post('/register', register);
 router.post('/login', login);
-router.get('/me', authenticateJWT, me);
+router.post('/sync', syncFirebaseUser);
+router.get('/me', authenticateJWT, getMe);
 
 export default router;

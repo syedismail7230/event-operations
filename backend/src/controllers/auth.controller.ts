@@ -1,64 +1,61 @@
 import { Request, Response } from 'express';
+import { admin } from '../lib/firebase-admin';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-for-dev';
 
-export const register = async (req: Request, res: Response): Promise<void> => {
+export const syncFirebaseUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password, name, role, organizationId } = req.body;
-
-    if (!email || !password || !name) {
-      res.status(400).json({ error: 'Missing required fields' });
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      res.status(401).json({ error: 'Authorization header missing' });
       return;
     }
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const token = authHeader.split(' ')[1];
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    const email = decodedToken.email;
+
+    if (!email) {
+      res.status(400).json({ error: 'Email missing from Firebase Token' });
+      return;
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
     if (existingUser) {
-      res.status(409).json({ error: 'User already exists' });
+      if (existingUser.status === 'PENDING') {
+         res.status(403).json({ error: 'Your account is pending review by the Root Admin.', status: 'PENDING' });
+         return;
+      }
+      res.json({ user: { role: existingUser.role, email: existingUser.email, status: existingUser.status } });
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const resolvedRole = role || 'ATTENDEE';
-
-    const user = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
-        email,
-        password: hashedPassword,
-        name,
-        role: resolvedRole,
-        organizationId: organizationId || null,
-      },
+        email: email,
+        password: 'NO_PASSWORD_FIREBASE',
+        name: decodedToken.name || 'New Organization Admin',
+        role: 'ORG_ADMIN',
+        status: 'PENDING'
+      }
     });
 
-    const token = jwt.sign(
-      { id: user.id, role: user.role, organizationId: user.organizationId },
-      JWT_SECRET,
-      { expiresIn: '24h' }
-    );
-
-    res.status(201).json({
-      message: 'User registered successfully',
-      token,
-      user: { id: user.id, email: user.email, name: user.name, role: user.role },
-    });
-  } catch (error: any) {
-    console.error('Registration Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(403).json({ error: 'Your account has been created and is pending review by the Root Admin.', status: 'PENDING' });
+  } catch (error) {
+    console.error('Sync Error', error);
+    res.status(500).json({ error: 'Failed to synchronize account' });
   }
 };
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
-    
-    if (!email || !password) {
-      res.status(400).json({ error: 'Email and password are required' });
-      return;
-    }
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
@@ -66,41 +63,38 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
       res.status(401).json({ error: 'Invalid credentials' });
       return;
     }
 
     const token = jwt.sign(
       { id: user.id, role: user.role, organizationId: user.organizationId },
-      JWT_SECRET,
+      process.env.JWT_SECRET || 'super-secret-key-for-dev',
       { expiresIn: '24h' }
     );
 
-    res.json({
-      message: 'Login successful',
-      token,
-      user: { id: user.id, email: user.email, name: user.name, role: user.role, organizationId: user.organizationId },
-    });
-  } catch (error: any) {
-    console.error('Login Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+  } catch (error) {
+    res.status(500).json({ error: 'Login failed' });
   }
 };
 
-export const me = async (req: any, res: Response): Promise<void> => {
+export const getMe = async (req: any, res: Response): Promise<void> => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
-      select: { id: true, email: true, name: true, role: true, organizationId: true }
+      select: { id: true, email: true, name: true, role: true, status: true, organizationId: true },
     });
+
     if (!user) {
       res.status(404).json({ error: 'User not found' });
       return;
     }
+
     res.json({ user });
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Failed to fetch user data' });
   }
 };

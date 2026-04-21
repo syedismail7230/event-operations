@@ -17,32 +17,34 @@ async function main() {
 
   console.log('Created Organization:', masterOrg.name);
 
-  // 2. Hash default password
-  const hashedPassword = await bcrypt.hash('password123', 10);
+  // 2. Hash default password (if relying on local auth rollback at any point)
+  const hashedPassword = await bcrypt.hash('dgywg%%^&556', 10);
 
-  // 3. Create Root Admin
+  // 3. Create Root Admin (Zawar org)
   const rootAdmin = await prisma.user.upsert({
-    where: { email: 'root@acme.com' },
+    where: { email: 'admin@zawr.org' },
     update: {},
     create: {
-      email: 'root@acme.com',
+      email: 'admin@zawr.org',
       password: hashedPassword,
-      name: 'System Root',
+      name: 'Zawr Root Administrator',
       role: 'ROOT_ADMIN',
+      status: 'ACTIVE'
     },
   });
 
   console.log('Created Root Admin:', rootAdmin.email);
 
-  // 4. Create Org Admin
+  // 4. Create Org Admin (Pending Demo)
   const orgAdmin = await prisma.user.upsert({
     where: { email: 'admin@acme.com' },
     update: {},
     create: {
       email: 'admin@acme.com',
-      password: hashedPassword,
+      password: await bcrypt.hash('password123', 10),
       name: 'Acme Admin',
       role: 'ORG_ADMIN',
+      status: 'PENDING',
       organizationId: masterOrg.id,
     },
   });

@@ -55,3 +55,28 @@ export const getOrgMetrics = async (req: AuthRequest, res: Response): Promise<vo
     res.status(500).json({ error: 'Failed to fetch org metrics' });
   }
 };
+
+export const getPendingUsers = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const pendingUsers = await prisma.user.findMany({
+      where: { status: 'PENDING' },
+      select: { id: true, name: true, email: true, role: true, createdAt: true }
+    });
+    res.json(pendingUsers);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch pending users' });
+  }
+};
+
+export const approveUser = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.body;
+    await prisma.user.update({
+      where: { id: userId },
+      data: { status: 'ACTIVE' }
+    });
+    res.json({ success: true, message: 'User approved' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to approve user' });
+  }
+};
