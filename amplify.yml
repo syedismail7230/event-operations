@@ -3,12 +3,13 @@ frontend:
   phases:
     build:
       commands:
-        - cd frontend && npm ci && npm run build
+        - npm ci
+        - cd frontend && npx next build
   artifacts:
     baseDirectory: frontend/.next
     files:
       - '**/*'
   cache:
     paths:
-      - frontend/node_modules/**/*
+      - node_modules/**/*
       - frontend/.next/cache/**/*

@@ -6,9 +6,6 @@
     "frontend",
     "backend"
   ],
-  "scripts": {
-    "build": "npm run build -w frontend"
-  },
   "devDependencies": {
     "archiver": "^7.0.1"
   }
