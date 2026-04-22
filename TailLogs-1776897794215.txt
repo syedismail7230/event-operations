@@ -1,0 +1,244 @@
+----------------------------------------
+/var/log/web.stdout.log
+----------------------------------------
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]: CRITICAL: Firebase Admin credentials missing from env. Auth checks will crash.
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]: /var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:174
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:            throw new error_1.FirebaseAppError(error_1.AppErrorCodes.INVALID_CREDENTIAL, errorMessage);
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:            ^
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]: FirebaseAppError: Service account object must contain a string "private_key" property.
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at new ServiceAccount (/var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:174:19)
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at new ServiceAccountCredential (/var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:118:15)
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at Object.cert (/var/app/current/node_modules/firebase-admin/lib/app/credential-factory.js:105:54)
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at Object.<anonymous> (/var/app/current/dist/lib/firebase-admin.js:16:57)
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at Module.load (node:internal/modules/cjs/loader:1266:32)
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at Module._load (node:internal/modules/cjs/loader:1091:12)
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    at require (node:internal/modules/helpers:182:18) {
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:  errorInfo: {
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    code: 'app/invalid-credential',
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:    message: 'Service account object must contain a string "private_key" property.'
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:  },
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]:  codePrefix: 'app'
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]: }
+Apr 22 22:42:59 ip-172-31-39-247 web[21859]: Node.js v20.20.1
+Apr 22 22:43:02 ip-172-31-39-247 web[21929]: Prisma schema loaded from prisma/schema.prisma
+Apr 22 22:43:04 ip-172-31-39-247 web[21929]: ✔ Generated Prisma Client (v5.22.0) to ./node_modules/@prisma/client in 414ms
+Apr 22 22:43:04 ip-172-31-39-247 web[21929]: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+Apr 22 22:43:04 ip-172-31-39-247 web[21929]: Tip: Want to react to database changes in your app as they happen? Discover how with Pulse: https://pris.ly/tip-1-pulse
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]: CRITICAL: Firebase Admin credentials missing from env. Auth checks will crash.
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]: /var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:174
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:            throw new error_1.FirebaseAppError(error_1.AppErrorCodes.INVALID_CREDENTIAL, errorMessage);
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:            ^
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]: FirebaseAppError: Service account object must contain a string "private_key" property.
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at new ServiceAccount (/var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:174:19)
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at new ServiceAccountCredential (/var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:118:15)
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at Object.cert (/var/app/current/node_modules/firebase-admin/lib/app/credential-factory.js:105:54)
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at Object.<anonymous> (/var/app/current/dist/lib/firebase-admin.js:16:57)
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at Module.load (node:internal/modules/cjs/loader:1266:32)
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at Module._load (node:internal/modules/cjs/loader:1091:12)
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    at require (node:internal/modules/helpers:182:18) {
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:  errorInfo: {
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    code: 'app/invalid-credential',
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:    message: 'Service account object must contain a string "private_key" property.'
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:  },
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]:  codePrefix: 'app'
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]: }
+Apr 22 22:43:04 ip-172-31-39-247 web[21914]: Node.js v20.20.1
+Apr 22 22:43:06 ip-172-31-39-247 web[21984]: Prisma schema loaded from prisma/schema.prisma
+Apr 22 22:43:08 ip-172-31-39-247 web[21984]: ✔ Generated Prisma Client (v5.22.0) to ./node_modules/@prisma/client in 365ms
+Apr 22 22:43:08 ip-172-31-39-247 web[21984]: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+Apr 22 22:43:08 ip-172-31-39-247 web[21984]: Tip: Want to react to database changes in your app as they happen? Discover how with Pulse: https://pris.ly/tip-1-pulse
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]: CRITICAL: Firebase Admin credentials missing from env. Auth checks will crash.
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]: /var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:174
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:            throw new error_1.FirebaseAppError(error_1.AppErrorCodes.INVALID_CREDENTIAL, errorMessage);
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:            ^
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]: FirebaseAppError: Service account object must contain a string "private_key" property.
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at new ServiceAccount (/var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:174:19)
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at new ServiceAccountCredential (/var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:118:15)
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at Object.cert (/var/app/current/node_modules/firebase-admin/lib/app/credential-factory.js:105:54)
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at Object.<anonymous> (/var/app/current/dist/lib/firebase-admin.js:16:57)
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at Module.load (node:internal/modules/cjs/loader:1266:32)
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at Module._load (node:internal/modules/cjs/loader:1091:12)
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    at require (node:internal/modules/helpers:182:18) {
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:  errorInfo: {
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    code: 'app/invalid-credential',
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:    message: 'Service account object must contain a string "private_key" property.'
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:  },
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]:  codePrefix: 'app'
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]: }
+Apr 22 22:43:09 ip-172-31-39-247 web[21969]: Node.js v20.20.1
+Apr 22 22:43:11 ip-172-31-39-247 web[22039]: Prisma schema loaded from prisma/schema.prisma
+Apr 22 22:43:12 ip-172-31-39-247 web[22039]: ✔ Generated Prisma Client (v5.22.0) to ./node_modules/@prisma/client in 388ms
+Apr 22 22:43:12 ip-172-31-39-247 web[22039]: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+Apr 22 22:43:12 ip-172-31-39-247 web[22039]: Tip: Easily identify and fix slow SQL queries in your app. Optimize helps you enhance your visibility: https://pris.ly/--optimize
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]: CRITICAL: Firebase Admin credentials missing from env. Auth checks will crash.
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]: /var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:174
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:            throw new error_1.FirebaseAppError(error_1.AppErrorCodes.INVALID_CREDENTIAL, errorMessage);
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:            ^
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]: FirebaseAppError: Service account object must contain a string "private_key" property.
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at new ServiceAccount (/var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:174:19)
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at new ServiceAccountCredential (/var/app/current/node_modules/firebase-admin/lib/app/credential-internal.js:118:15)
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at Object.cert (/var/app/current/node_modules/firebase-admin/lib/app/credential-factory.js:105:54)
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at Object.<anonymous> (/var/app/current/dist/lib/firebase-admin.js:16:57)
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at Module.load (node:internal/modules/cjs/loader:1266:32)
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at Module._load (node:internal/modules/cjs/loader:1091:12)
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    at require (node:internal/modules/helpers:182:18) {
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:  errorInfo: {
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    code: 'app/invalid-credential',
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:    message: 'Service account object must contain a string "private_key" property.'
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:  },
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]:  codePrefix: 'app'
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]: }
+Apr 22 22:43:13 ip-172-31-39-247 web[22024]: Node.js v20.20.1
+
+
+----------------------------------------
+/var/log/eb-engine.log
+----------------------------------------
+2026/04/22 22:41:48.427100 [INFO] Executing instruction: stop X-Ray
+2026/04/22 22:41:48.427102 [INFO] stop X-Ray ...
+2026/04/22 22:41:48.427111 [INFO] Running command: systemctl show -p PartOf xray.service
+2026/04/22 22:41:48.441125 [WARN] stopProcess Warning: process xray is not registered 
+2026/04/22 22:41:48.441188 [INFO] Running command: systemctl stop xray.service
+2026/04/22 22:41:48.456034 [INFO] Executing instruction: stop proxy
+2026/04/22 22:41:48.456069 [INFO] Running command: systemctl show -p PartOf httpd.service
+2026/04/22 22:41:48.472183 [WARN] deregisterProcess Warning: process httpd is not registered, skipping...
+
+2026/04/22 22:41:48.472229 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/04/22 22:41:48.484816 [INFO] Running command: systemctl is-active nginx.service
+2026/04/22 22:41:48.492837 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/04/22 22:41:48.502703 [INFO] Running command: systemctl stop nginx.service
+2026/04/22 22:41:48.691812 [INFO] Running command: systemctl disable nginx.service
+2026/04/22 22:41:48.987455 [INFO] Running command: systemctl daemon-reload
+2026/04/22 22:41:49.238923 [INFO] Running command: systemctl reset-failed
+2026/04/22 22:41:49.247162 [INFO] Executing instruction: FlipApplication
+2026/04/22 22:41:49.247187 [INFO] Fetching environment variables...
+2026/04/22 22:41:49.247459 [INFO] Purge old process...
+2026/04/22 22:41:49.247527 [INFO] Running command: systemctl stop eb-app.target
+2026/04/22 22:41:49.256407 [INFO] Running command: systemctl show -p ConsistsOf eb-app.target | cut -d= -f2
+2026/04/22 22:41:49.266682 [INFO] web.service
+
+2026/04/22 22:41:49.266706 [INFO] deregistering process: web
+2026/04/22 22:41:49.266716 [INFO] Running command: systemctl show -p PartOf web.service
+2026/04/22 22:41:49.276651 [INFO] Running command: systemctl is-active web.service
+2026/04/22 22:41:49.283960 [INFO] Running command: systemctl disable web.service
+2026/04/22 22:41:49.567785 [INFO] Removed "/etc/systemd/system/multi-user.target.wants/web.service".
+
+2026/04/22 22:41:49.567865 [INFO] Running command: systemctl daemon-reload
+2026/04/22 22:41:49.847574 [INFO] Running command: systemctl reset-failed
+2026/04/22 22:41:49.855953 [INFO] Running command: systemctl is-active web.service
+2026/04/22 22:41:49.864068 [INFO] Process web has been fully terminated
+2026/04/22 22:41:49.864082 [INFO] All processes have been fully terminated
+2026/04/22 22:41:49.864086 [INFO] Removing /var/app/current/ if it exists
+2026/04/22 22:41:49.866268 [INFO] Renaming /var/app/staging/ to /var/app/current/
+2026/04/22 22:41:49.866371 [INFO] Register application processes...
+2026/04/22 22:41:49.866375 [INFO] Registering the proc: web
+
+2026/04/22 22:41:49.866385 [INFO] Running command: systemctl show -p PartOf web.service
+2026/04/22 22:41:49.878280 [INFO] Running command: systemctl daemon-reload
+2026/04/22 22:41:50.158195 [INFO] Running command: systemctl reset-failed
+2026/04/22 22:41:50.166675 [INFO] Running command: systemctl is-enabled eb-app.target
+2026/04/22 22:41:50.174506 [INFO] Running command: systemctl enable eb-app.target
+2026/04/22 22:41:50.455376 [INFO] Running command: systemctl start eb-app.target
+2026/04/22 22:41:50.464508 [INFO] Running command: systemctl enable web.service
+2026/04/22 22:41:50.707576 [INFO] Created symlink /etc/systemd/system/multi-user.target.wants/web.service → /etc/systemd/system/web.service.
+
+2026/04/22 22:41:50.707624 [INFO] Running command: systemctl show -p PartOf web.service
+2026/04/22 22:41:50.718953 [INFO] Running command: systemctl is-active web.service
+2026/04/22 22:41:50.726117 [INFO] Running command: systemctl start web.service
+2026/04/22 22:41:52.782206 [INFO] Executing instruction: start X-Ray
+2026/04/22 22:41:52.782235 [INFO] X-Ray is not enabled.
+2026/04/22 22:41:52.782239 [INFO] Executing instruction: start proxy with new configuration
+2026/04/22 22:41:52.782281 [INFO] Running command: /usr/sbin/nginx -t -c /var/proxy/staging/nginx/nginx.conf
+2026/04/22 22:41:52.825721 [INFO] nginx: [warn] could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+nginx: the configuration file /var/proxy/staging/nginx/nginx.conf syntax is ok
+nginx: configuration file /var/proxy/staging/nginx/nginx.conf test is successful
+
+2026/04/22 22:41:52.826055 [INFO] Running command: cp -rp /var/proxy/staging/nginx/* /etc/nginx
+2026/04/22 22:41:52.840027 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/04/22 22:41:52.866424 [INFO] Running command: systemctl daemon-reload
+2026/04/22 22:41:53.283166 [INFO] Running command: systemctl reset-failed
+2026/04/22 22:41:53.296255 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/04/22 22:41:53.317980 [INFO] Running command: systemctl is-active nginx.service
+2026/04/22 22:41:53.336460 [INFO] Running command: systemctl start nginx.service
+2026/04/22 22:41:53.508130 [INFO] Executing instruction: configureSqsd
+2026/04/22 22:41:53.508157 [INFO] This is a web server environment instance, skip configure sqsd daemon ...
+2026/04/22 22:41:53.508161 [INFO] Executing instruction: startSqsd
+2026/04/22 22:41:53.508164 [INFO] This is a web server environment instance, skip start sqsd daemon ...
+2026/04/22 22:41:53.508167 [INFO] Executing instruction: Track pids in healthd
+2026/04/22 22:41:53.508170 [INFO] This is an enhanced health env...
+2026/04/22 22:41:53.508182 [INFO] Running command: systemctl show -p ConsistsOf aws-eb.target | cut -d= -f2
+2026/04/22 22:41:53.541431 [INFO] cfn-hup.service nginx.service healthd.service
+
+2026/04/22 22:41:53.541466 [INFO] Running command: systemctl show -p ConsistsOf eb-app.target | cut -d= -f2
+2026/04/22 22:41:53.556707 [INFO] web.service
+
+2026/04/22 22:41:53.557860 [INFO] Executing instruction: RunAppDeployPostDeployHooks
+2026/04/22 22:41:53.557876 [INFO] No hooks found in .platform/hooks/postdeploy/, skipping
+2026/04/22 22:41:53.557880 [INFO] Executing cleanup logic
+2026/04/22 22:41:53.557997 [INFO] CommandService Response: {"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"Engine execution has succeeded.","returncode":0,"events":[{"msg":"Instance deployment completed successfully.","timestamp":1776897713557,"severity":"INFO"}]}]}
+
+2026/04/22 22:41:53.584568 [INFO] Platform Engine finished execution on command: app-deploy
+
+2026/04/22 22:43:13.203333 [INFO] Starting...
+2026/04/22 22:43:13.203414 [INFO] Starting EBPlatform-PlatformEngine
+2026/04/22 22:43:13.203475 [INFO] reading event message file
+2026/04/22 22:43:13.207471 [INFO] Engine received EB command cfn-hup-exec
+
+2026/04/22 22:43:13.408327 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-southeast-2:975037863124:stack/awseb-e-jkn2crv8vm-stack/9a281290-3e96-11f1-bb4f-0632681f5599 -r AWSEBAutoScalingGroup --region ap-southeast-2
+2026/04/22 22:43:13.775349 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-southeast-2:975037863124:stack/awseb-e-jkn2crv8vm-stack/9a281290-3e96-11f1-bb4f-0632681f5599 -r AWSEBBeanstalkMetadata --region ap-southeast-2
+2026/04/22 22:43:14.211956 [INFO] checking whether command tail-log is applicable to this instance...
+2026/04/22 22:43:14.211974 [INFO] this command is applicable to the instance, thus instance should execute command
+2026/04/22 22:43:14.211978 [INFO] Engine command: (tail-log)
+
+2026/04/22 22:43:14.213335 [INFO] Executing instruction: GetTailLogs
+2026/04/22 22:43:14.213344 [INFO] Tail Logs...
+2026/04/22 22:43:14.215858 [INFO] Running command: tail -n 100 /var/log/web.stdout.log
+2026/04/22 22:43:14.218712 [INFO] Running command: tail -n 100 /var/log/eb-engine.log
+
+
+----------------------------------------
+/var/log/nginx/access.log
+----------------------------------------
+103.171.98.78 - - [22/Apr/2026:22:09:53 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+103.171.98.78 - - [22/Apr/2026:22:13:18 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+103.171.98.78 - - [22/Apr/2026:22:14:14 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+103.171.98.78 - - [22/Apr/2026:22:14:14 +0000] "GET /auth/me HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+103.171.98.78 - - [22/Apr/2026:22:38:15 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+103.171.98.78 - - [22/Apr/2026:22:43:00 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+
+
+----------------------------------------
+/var/log/nginx/error.log
+----------------------------------------
+2026/04/22 22:06:23 [warn] 2360#2360: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:06:24 [warn] 2405#2405: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:06:24 [warn] 2406#2406: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:09:53 [error] 2408#2408: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+2026/04/22 22:10:53 [warn] 3083#3083: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:10:53 [warn] 3116#3116: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:10:53 [warn] 3117#3117: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:13:18 [error] 3120#3120: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+2026/04/22 22:14:14 [error] 3119#3119: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+2026/04/22 22:14:14 [error] 3119#3119: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET /auth/me HTTP/1.1", upstream: "http://127.0.0.1:8080/auth/me", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+2026/04/22 22:36:24 [warn] 19915#19915: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:36:25 [warn] 19959#19959: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:36:25 [warn] 19960#19960: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:38:15 [error] 19965#19965: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+2026/04/22 22:41:52 [warn] 20947#20947: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:41:53 [warn] 20986#20986: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:41:53 [warn] 20988#20988: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:43:00 [error] 20991#20991: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+
+
