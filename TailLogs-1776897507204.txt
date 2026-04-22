@@ -1,0 +1,239 @@
+----------------------------------------
+/var/log/web.stdout.log
+----------------------------------------
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]: node:internal/modules/cjs/loader:1210
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:  throw err;
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:  ^
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]: Error: Cannot find module 'dotenv/config'
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]: Require stack:
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]: - /var/app/current/dist/server.js
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at Module._load (node:internal/modules/cjs/loader:1038:27)
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at require (node:internal/modules/helpers:182:18)
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at Object.<anonymous> (/var/app/current/dist/server.js:7:1)
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at Module.load (node:internal/modules/cjs/loader:1266:32)
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at Module._load (node:internal/modules/cjs/loader:1091:12)
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:  code: 'MODULE_NOT_FOUND',
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]:  requireStack: [ '/var/app/current/dist/server.js' ]
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]: }
+Apr 22 22:36:25 ip-172-31-39-247 web[19961]: Node.js v20.20.1
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]: node:internal/modules/cjs/loader:1210
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:  throw err;
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:  ^
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]: Error: Cannot find module 'dotenv/config'
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]: Require stack:
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]: - /var/app/current/dist/server.js
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at Module._load (node:internal/modules/cjs/loader:1038:27)
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at require (node:internal/modules/helpers:182:18)
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at Object.<anonymous> (/var/app/current/dist/server.js:7:1)
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at Module.load (node:internal/modules/cjs/loader:1266:32)
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at Module._load (node:internal/modules/cjs/loader:1091:12)
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:  code: 'MODULE_NOT_FOUND',
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]:  requireStack: [ '/var/app/current/dist/server.js' ]
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]: }
+Apr 22 22:36:25 ip-172-31-39-247 web[19988]: Node.js v20.20.1
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]: node:internal/modules/cjs/loader:1210
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:  throw err;
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:  ^
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]: Error: Cannot find module 'dotenv/config'
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]: Require stack:
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]: - /var/app/current/dist/server.js
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at Module._load (node:internal/modules/cjs/loader:1038:27)
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at require (node:internal/modules/helpers:182:18)
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at Object.<anonymous> (/var/app/current/dist/server.js:7:1)
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at Module.load (node:internal/modules/cjs/loader:1266:32)
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at Module._load (node:internal/modules/cjs/loader:1091:12)
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:  code: 'MODULE_NOT_FOUND',
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]:  requireStack: [ '/var/app/current/dist/server.js' ]
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]: }
+Apr 22 22:36:26 ip-172-31-39-247 web[19999]: Node.js v20.20.1
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]: node:internal/modules/cjs/loader:1210
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:  throw err;
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:  ^
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]: Error: Cannot find module 'dotenv/config'
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]: Require stack:
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]: - /var/app/current/dist/server.js
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at Module._load (node:internal/modules/cjs/loader:1038:27)
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at require (node:internal/modules/helpers:182:18)
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at Object.<anonymous> (/var/app/current/dist/server.js:7:1)
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at Module.load (node:internal/modules/cjs/loader:1266:32)
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at Module._load (node:internal/modules/cjs/loader:1091:12)
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:  code: 'MODULE_NOT_FOUND',
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]:  requireStack: [ '/var/app/current/dist/server.js' ]
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]: }
+Apr 22 22:36:26 ip-172-31-39-247 web[20010]: Node.js v20.20.1
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]: node:internal/modules/cjs/loader:1210
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:  throw err;
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:  ^
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]: Error: Cannot find module 'dotenv/config'
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]: Require stack:
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]: - /var/app/current/dist/server.js
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at Module._load (node:internal/modules/cjs/loader:1038:27)
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at require (node:internal/modules/helpers:182:18)
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at Object.<anonymous> (/var/app/current/dist/server.js:7:1)
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at Module.load (node:internal/modules/cjs/loader:1266:32)
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at Module._load (node:internal/modules/cjs/loader:1091:12)
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:  code: 'MODULE_NOT_FOUND',
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]:  requireStack: [ '/var/app/current/dist/server.js' ]
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]: }
+Apr 22 22:36:27 ip-172-31-39-247 web[20021]: Node.js v20.20.1
+
+
+----------------------------------------
+/var/log/eb-engine.log
+----------------------------------------
+2026/04/22 22:36:20.137898 [INFO] Executing instruction: stop X-Ray
+2026/04/22 22:36:20.137900 [INFO] stop X-Ray ...
+2026/04/22 22:36:20.137911 [INFO] Running command: systemctl show -p PartOf xray.service
+2026/04/22 22:36:20.151031 [WARN] stopProcess Warning: process xray is not registered 
+2026/04/22 22:36:20.151063 [INFO] Running command: systemctl stop xray.service
+2026/04/22 22:36:20.165218 [INFO] Executing instruction: stop proxy
+2026/04/22 22:36:20.165261 [INFO] Running command: systemctl show -p PartOf httpd.service
+2026/04/22 22:36:20.213551 [WARN] deregisterProcess Warning: process httpd is not registered, skipping...
+
+2026/04/22 22:36:20.213585 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/04/22 22:36:20.233363 [INFO] Running command: systemctl is-active nginx.service
+2026/04/22 22:36:20.245247 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/04/22 22:36:20.259055 [INFO] Running command: systemctl stop nginx.service
+2026/04/22 22:36:20.411577 [INFO] Running command: systemctl disable nginx.service
+2026/04/22 22:36:20.825041 [INFO] Running command: systemctl daemon-reload
+2026/04/22 22:36:21.223758 [INFO] Running command: systemctl reset-failed
+2026/04/22 22:36:21.234507 [INFO] Executing instruction: FlipApplication
+2026/04/22 22:36:21.234533 [INFO] Fetching environment variables...
+2026/04/22 22:36:21.234739 [INFO] Purge old process...
+2026/04/22 22:36:21.234761 [INFO] Running command: systemctl stop eb-app.target
+2026/04/22 22:36:21.309694 [INFO] Running command: systemctl show -p ConsistsOf eb-app.target | cut -d= -f2
+2026/04/22 22:36:21.361944 [INFO] web.service
+
+2026/04/22 22:36:21.361963 [INFO] deregistering process: web
+2026/04/22 22:36:21.361975 [INFO] Running command: systemctl show -p PartOf web.service
+2026/04/22 22:36:21.372715 [INFO] Running command: systemctl is-active web.service
+2026/04/22 22:36:21.380332 [INFO] Running command: systemctl disable web.service
+2026/04/22 22:36:21.632922 [INFO] Removed "/etc/systemd/system/multi-user.target.wants/web.service".
+
+2026/04/22 22:36:21.632999 [INFO] Running command: systemctl daemon-reload
+2026/04/22 22:36:21.869264 [INFO] Running command: systemctl reset-failed
+2026/04/22 22:36:21.877154 [INFO] Running command: systemctl is-active web.service
+2026/04/22 22:36:21.884325 [INFO] Process web has been fully terminated
+2026/04/22 22:36:21.884337 [INFO] All processes have been fully terminated
+2026/04/22 22:36:21.884341 [INFO] Removing /var/app/current/ if it exists
+2026/04/22 22:36:21.885688 [INFO] Renaming /var/app/staging/ to /var/app/current/
+2026/04/22 22:36:21.885749 [INFO] Register application processes...
+2026/04/22 22:36:21.885753 [INFO] Registering the proc: web
+
+2026/04/22 22:36:21.885763 [INFO] Running command: systemctl show -p PartOf web.service
+2026/04/22 22:36:21.897788 [INFO] Running command: systemctl daemon-reload
+2026/04/22 22:36:22.129583 [INFO] Running command: systemctl reset-failed
+2026/04/22 22:36:22.137984 [INFO] Running command: systemctl is-enabled eb-app.target
+2026/04/22 22:36:22.145697 [INFO] Running command: systemctl enable eb-app.target
+2026/04/22 22:36:22.391543 [INFO] Running command: systemctl start eb-app.target
+2026/04/22 22:36:22.400560 [INFO] Running command: systemctl enable web.service
+2026/04/22 22:36:22.683356 [INFO] Created symlink /etc/systemd/system/multi-user.target.wants/web.service → /etc/systemd/system/web.service.
+
+2026/04/22 22:36:22.683387 [INFO] Running command: systemctl show -p PartOf web.service
+2026/04/22 22:36:22.694120 [INFO] Running command: systemctl is-active web.service
+2026/04/22 22:36:22.701565 [INFO] Running command: systemctl start web.service
+2026/04/22 22:36:24.774516 [INFO] Executing instruction: start X-Ray
+2026/04/22 22:36:24.774524 [INFO] X-Ray is not enabled.
+2026/04/22 22:36:24.774527 [INFO] Executing instruction: start proxy with new configuration
+2026/04/22 22:36:24.774549 [INFO] Running command: /usr/sbin/nginx -t -c /var/proxy/staging/nginx/nginx.conf
+2026/04/22 22:36:24.804092 [INFO] nginx: [warn] could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+nginx: the configuration file /var/proxy/staging/nginx/nginx.conf syntax is ok
+nginx: configuration file /var/proxy/staging/nginx/nginx.conf test is successful
+
+2026/04/22 22:36:24.804966 [INFO] Running command: cp -rp /var/proxy/staging/nginx/* /etc/nginx
+2026/04/22 22:36:24.810002 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/04/22 22:36:24.863807 [INFO] Running command: systemctl daemon-reload
+2026/04/22 22:36:25.190517 [INFO] Running command: systemctl reset-failed
+2026/04/22 22:36:25.287922 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/04/22 22:36:25.302273 [INFO] Running command: systemctl is-active nginx.service
+2026/04/22 22:36:25.311365 [INFO] Running command: systemctl start nginx.service
+2026/04/22 22:36:25.476676 [INFO] Executing instruction: configureSqsd
+2026/04/22 22:36:25.476700 [INFO] This is a web server environment instance, skip configure sqsd daemon ...
+2026/04/22 22:36:25.476706 [INFO] Executing instruction: startSqsd
+2026/04/22 22:36:25.476709 [INFO] This is a web server environment instance, skip start sqsd daemon ...
+2026/04/22 22:36:25.476713 [INFO] Executing instruction: Track pids in healthd
+2026/04/22 22:36:25.476717 [INFO] This is an enhanced health env...
+2026/04/22 22:36:25.476732 [INFO] Running command: systemctl show -p ConsistsOf aws-eb.target | cut -d= -f2
+2026/04/22 22:36:25.493451 [INFO] nginx.service healthd.service cfn-hup.service
+
+2026/04/22 22:36:25.493485 [INFO] Running command: systemctl show -p ConsistsOf eb-app.target | cut -d= -f2
+2026/04/22 22:36:25.510554 [INFO] web.service
+
+2026/04/22 22:36:25.510896 [INFO] Executing instruction: RunAppDeployPostDeployHooks
+2026/04/22 22:36:25.510910 [INFO] No hooks found in .platform/hooks/postdeploy/, skipping
+2026/04/22 22:36:25.510914 [INFO] Executing cleanup logic
+2026/04/22 22:36:25.511804 [INFO] CommandService Response: {"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"Engine execution has succeeded.","returncode":0,"events":[{"msg":"Instance deployment completed successfully.","timestamp":1776897385510,"severity":"INFO"}]}]}
+
+2026/04/22 22:36:25.548139 [INFO] Platform Engine finished execution on command: app-deploy
+
+2026/04/22 22:38:26.518855 [INFO] Starting...
+2026/04/22 22:38:26.518906 [INFO] Starting EBPlatform-PlatformEngine
+2026/04/22 22:38:26.518943 [INFO] reading event message file
+2026/04/22 22:38:26.519315 [INFO] Engine received EB command cfn-hup-exec
+
+2026/04/22 22:38:26.598104 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-southeast-2:975037863124:stack/awseb-e-jkn2crv8vm-stack/9a281290-3e96-11f1-bb4f-0632681f5599 -r AWSEBAutoScalingGroup --region ap-southeast-2
+2026/04/22 22:38:26.906258 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-southeast-2:975037863124:stack/awseb-e-jkn2crv8vm-stack/9a281290-3e96-11f1-bb4f-0632681f5599 -r AWSEBBeanstalkMetadata --region ap-southeast-2
+2026/04/22 22:38:27.202483 [INFO] checking whether command tail-log is applicable to this instance...
+2026/04/22 22:38:27.202501 [INFO] this command is applicable to the instance, thus instance should execute command
+2026/04/22 22:38:27.202507 [INFO] Engine command: (tail-log)
+
+2026/04/22 22:38:27.202671 [INFO] Executing instruction: GetTailLogs
+2026/04/22 22:38:27.202721 [INFO] Tail Logs...
+2026/04/22 22:38:27.204781 [INFO] Running command: tail -n 100 /var/log/web.stdout.log
+2026/04/22 22:38:27.207160 [INFO] Running command: tail -n 100 /var/log/eb-engine.log
+
+
+----------------------------------------
+/var/log/nginx/access.log
+----------------------------------------
+103.171.98.78 - - [22/Apr/2026:22:09:53 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+103.171.98.78 - - [22/Apr/2026:22:13:18 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+103.171.98.78 - - [22/Apr/2026:22:14:14 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+103.171.98.78 - - [22/Apr/2026:22:14:14 +0000] "GET /auth/me HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+103.171.98.78 - - [22/Apr/2026:22:38:15 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115" "-"
+
+
+----------------------------------------
+/var/log/nginx/error.log
+----------------------------------------
+2026/04/22 22:06:23 [warn] 2360#2360: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:06:24 [warn] 2405#2405: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:06:24 [warn] 2406#2406: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:09:53 [error] 2408#2408: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+2026/04/22 22:10:53 [warn] 3083#3083: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:10:53 [warn] 3116#3116: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:10:53 [warn] 3117#3117: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:13:18 [error] 3120#3120: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+2026/04/22 22:14:14 [error] 3119#3119: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+2026/04/22 22:14:14 [error] 3119#3119: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET /auth/me HTTP/1.1", upstream: "http://127.0.0.1:8080/auth/me", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+2026/04/22 22:36:24 [warn] 19915#19915: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:36:25 [warn] 19959#19959: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:36:25 [warn] 19960#19960: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/04/22 22:38:15 [error] 19965#19965: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 103.171.98.78, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "event-ops-backend-env2.eba-w2kemrk2.ap-southeast-2.elasticbeanstalk.com"
+
+
