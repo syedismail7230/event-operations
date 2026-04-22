@@ -10,6 +10,7 @@ import eventRoutes from './routes/event.routes';
 import paymentRoutes from './routes/payment.routes';
 import geofenceRoutes from './routes/geofence.routes';
 import orgRoutes from './routes/org.routes';
+import publicRoutes from './routes/public.routes';
 import { prismaInitPromise } from './lib/prisma';
 
 const app = express();
@@ -46,6 +47,7 @@ app.use('/dashboard/org', orgRoutes);
 app.use('/event', eventRoutes);
 app.use('/payment', paymentRoutes);
 app.use('/geofence', geofenceRoutes);
+app.use('/public', publicRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Event Operations Platform API is running' });
@@ -94,36 +96,17 @@ io.on('connection', (socket) => {
 
   // PTT push-to-talk signaling
   socket.on('ptt_acquire', ({ channelId, userId, userName }) => {
-    socket.to(`ptt_${channelId}`).emit('ptt_speaking', { userId, userName, socketId: socket.id });
+    socket.to(`ptt_${channelId}`).emit('ptt_speaking', { channelId, userId, userName, socketId: socket.id });
   });
 
   socket.on('ptt_release', ({ channelId, userId }) => {
     socket.to(`ptt_${channelId}`).emit('ptt_released', { userId });
   });
 
-  // WebRTC SDP signaling — targeted to specific peer
-  socket.on('webrtc_offer', ({ channelId, offer, fromId, toSocketId }) => {
-    if (toSocketId) {
-      io.to(toSocketId).emit('webrtc_offer', { offer, fromId, fromSocketId: socket.id });
-    } else {
-      socket.to(`ptt_${channelId}`).emit('webrtc_offer', { offer, fromId, fromSocketId: socket.id });
-    }
-  });
-
-  socket.on('webrtc_answer', ({ channelId, answer, fromId, toSocketId }) => {
-    if (toSocketId) {
-      io.to(toSocketId).emit('webrtc_answer', { answer, fromId, fromSocketId: socket.id });
-    } else {
-      socket.to(`ptt_${channelId}`).emit('webrtc_answer', { answer, fromId, fromSocketId: socket.id });
-    }
-  });
-
-  socket.on('webrtc_ice_candidate', ({ channelId, candidate, fromId, toSocketId }) => {
-    if (toSocketId) {
-      io.to(toSocketId).emit('webrtc_ice_candidate', { candidate, fromId, fromSocketId: socket.id });
-    } else {
-      socket.to(`ptt_${channelId}`).emit('webrtc_ice_candidate', { candidate, fromId, fromSocketId: socket.id });
-    }
+  // ── Server-relay audio chunks (no WebRTC P2P needed) ──
+  socket.on('ptt_audio_chunk', ({ channelId, chunk, userId }: { channelId: string; chunk: ArrayBuffer; userId: string }) => {
+    // Broadcast binary audio chunk to everyone else in the channel room
+    socket.to(`ptt_${channelId}`).emit('ptt_audio_chunk', { channelId, chunk, userId });
   });
 
   // ─── GPS Geo-fence Violation Check + Live Position Broadcast ──

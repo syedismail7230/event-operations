@@ -526,6 +526,28 @@ export const removeChannelMember = async (req: AuthRequest, res: Response): Prom
   }
 };
 
+export const deleteOrgChannel = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const orgId = req.user?.organizationId;
+    const { channelId } = req.params;
+
+    // Verify channel belongs to this org
+    const channel = await (prisma.communicationChannel as any).findFirst({
+      where: { id: channelId, event: { organizationId: orgId! } }
+    });
+    if (!channel) { res.status(404).json({ error: 'Channel not found.' }); return; }
+
+    // Delete members first, then channel
+    await (prisma.channelMember as any).deleteMany({ where: { channelId } });
+    await (prisma.communicationChannel as any).delete({ where: { id: channelId } });
+
+    io.to(`org_${orgId}`).emit('channel_deleted', { channelId });
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to delete channel' });
+  }
+};
+
 // ─────────────────────────────────────────────────────────────
 // GEO-FENCE EXCEPTIONS
 // ─────────────────────────────────────────────────────────────
@@ -704,6 +726,32 @@ export const broadcastOrgNotification = async (req: AuthRequest, res: Response):
     res.json({ success: true, log });
   } catch (e) {
     res.status(500).json({ error: 'Failed to send notification' });
+  }
+};
+
+export const getOrgNotifications = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const orgId = req.user?.organizationId;
+    if (!orgId) { res.status(403).json({ error: 'No organization attached.' }); return; }
+
+    const orgUsers = await prisma.user.findMany({ where: { organizationId: orgId }, select: { id: true } });
+    const actorIds = orgUsers.map((u: any) => u.id);
+
+    const logs = await prisma.auditLog.findMany({
+      where: { actorId: { in: actorIds }, action: 'BROADCAST_NOTIFICATION' },
+      orderBy: { createdAt: 'desc' },
+      take: 30
+    });
+
+    const notifications = logs.map((l: any) => {
+      let parsed: any = {};
+      try { parsed = JSON.parse(l.details || '{}'); } catch {}
+      return { id: l.id, message: parsed.message, type: parsed.type || 'INFO', targetRole: parsed.targetRole || 'ALL', sentAt: l.createdAt };
+    });
+
+    res.json(notifications);
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch notifications' });
   }
 };
 

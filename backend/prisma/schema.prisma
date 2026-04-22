@@ -24,6 +24,8 @@ model User {
   password       String
   name           String
   phone          String?
+  emergencyContact String?
+  bloodType      String?
   role           String        @default("ATTENDEE")
   status         String        @default("PENDING")
   organizationId String?
