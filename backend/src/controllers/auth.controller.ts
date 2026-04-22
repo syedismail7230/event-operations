@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { admin } from '../lib/firebase-admin';
-import { PrismaClient } from '@prisma/client';
+
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const prisma = new PrismaClient();
+import prisma from '../lib/prisma';
 
 export const syncFirebaseUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -112,12 +112,20 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         name,
         phone: phone || null,
         role: mappedRole,
-        status: 'ACTIVE', // Automatically active so they can be routed to events page immediately
+        status: (mappedRole === 'ORG_ADMIN' || mappedRole === 'MANAGER') ? 'PENDING' : 'ACTIVE', // Org roles require root approval
         organizationId: resolvedOrgId
       } as any
     });
 
-    // Auto log them in post-registration
+    if (newUser.status === 'PENDING') {
+      res.status(403).json({ 
+        error: 'Registration successful! Your account is pending Root Admin approval.',
+        status: 'PENDING'
+      });
+      return;
+    }
+
+    // Auto log them in post-registration for ACTIVE users
     const token = jwt.sign(
       { id: newUser.id, role: newUser.role, organizationId: newUser.organizationId },
       process.env.JWT_SECRET || 'super-secret-key-for-dev',
@@ -125,9 +133,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     );
 
     res.json({ token, user: { id: newUser.id, email: newUser.email, name: newUser.name, role: newUser.role } });
-  } catch (err) {
+  } catch (err: any) {
     console.error('Registration Error', err);
-    res.status(500).json({ error: 'Failed to complete registration sequence.' });
+    res.status(500).json({ error: err?.message || 'Failed to complete registration sequence.' });
   }
 };
 

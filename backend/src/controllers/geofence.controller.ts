@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { io } from '../server';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+
+import prisma from '../lib/prisma';
 const MAX_RADIUS_METERS = 500;
 
 function getDistanceFromLatLonInM(lat1: number, lon1: number, lat2: number, lon2: number) {

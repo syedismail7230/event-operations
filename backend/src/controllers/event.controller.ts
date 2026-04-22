@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+
 import { io } from '../server';
 
-const prisma = new PrismaClient();
+import prisma from '../lib/prisma';
 
 export const checkInAttendee = async (req: any, res: Response): Promise<void> => {
   try {

@@ -27,11 +27,17 @@ model User {
   role           String        @default("ATTENDEE")
   status         String        @default("PENDING")
   organizationId String?
-  
+
   // Relations
-  organization   Organization? @relation(fields: [organizationId], references: [id])
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  organization      Organization?      @relation(fields: [organizationId], references: [id])
+  checkIns          EventCheckIn[]
+  incidents         Incident[]
+  eventRoles        EventPersonnel[]
+  channelMemberships ChannelMember[]
+  geoExceptions     GeoFenceException[] @relation("GeoFenceSubject")
+  geoGranted        GeoFenceException[] @relation("GeoFenceGranter")
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 }
 
 model Event {
@@ -43,59 +49,141 @@ model Event {
   endTime        DateTime
   latitude       Float?
   longitude      Float?
+  geoBoundary    String?      // JSON-encoded polygon coords [[lat,lng],...]
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  
-  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  organization   Organization          @relation(fields: [organizationId], references: [id])
+  checkIns       EventCheckIn[]
+  incidents      Incident[]
+  personnel      EventPersonnel[]
+  channels       CommunicationChannel[]
+  geoExceptions  GeoFenceException[]
 }
 
 model AuditLog {
-  id             String       @id @default(cuid())
-  action         String
-  targetType     String
-  targetId       String
-  actorId        String
-  details        String?
-  createdAt      DateTime     @default(now())
+  id         String   @id @default(cuid())
+  action     String
+  targetType String
+  targetId   String
+  actorId    String
+  details    String?
+  createdAt  DateTime @default(now())
 }
 
 model FeatureToggle {
-  id             String       @id @default(cuid())
-  key            String       @unique
-  isEnabled      Boolean      @default(false)
-  description    String?
-  updatedAt      DateTime     @updatedAt
+  id          String   @id @default(cuid())
+  key         String   @unique
+  isEnabled   Boolean  @default(false)
+  description String?
+  updatedAt   DateTime @updatedAt
 }
 
 model Subscription {
-  id             String       @id @default(cuid())
-  organizationId String       @unique
-  planLevel      String       @default("TRIAL") // TRIAL, PROFESSIONAL, ENTERPRISE
-  status         String       @default("ACTIVE")
-  mrrAmount      Float        @default(0)
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  id             String   @id @default(cuid())
+  organizationId String   @unique
+  planLevel      String   @default("TRIAL")
+  status         String   @default("ACTIVE")
+  mrrAmount      Float    @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model SupportTicket {
-  id             String       @id @default(cuid())
-  tenantId       String
-  subject        String
-  priority       String       @default("LOW") // LOW, HIGH, CRITICAL
-  status         String       @default("OPEN")
-  createdAt      DateTime     @default(now())
+  id        String   @id @default(cuid())
+  tenantId  String
+  subject   String
+  priority  String   @default("LOW")
+  status    String   @default("OPEN")
+  createdAt DateTime @default(now())
 }
 
 model SystemNotification {
-  id             String       @id @default(cuid())
-  message        String
-  type           String       @default("INFO") // INFO, URGENT
-  createdAt      DateTime     @default(now())
+  id        String   @id @default(cuid())
+  message   String
+  type      String   @default("INFO")
+  createdAt DateTime @default(now())
 }
 
 model GlobalPlatformConfig {
-  id             String       @id @default(cuid())
-  key            String       @unique
-  value          String
-  updatedAt      DateTime     @updatedAt
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model EventCheckIn {
+  id        String   @id @default(cuid())
+  eventId   String
+  userId    String
+  direction String   @default("IN")
+  timestamp DateTime @default(now())
+
+  event Event @relation(fields: [eventId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+}
+
+model Incident {
+  id          String   @id @default(cuid())
+  eventId     String
+  reporterId  String
+  category    String   @default("GENERAL")
+  description String
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  event    Event @relation(fields: [eventId], references: [id])
+  reporter User  @relation(fields: [reporterId], references: [id])
+}
+
+model EventPersonnel {
+  id        String   @id @default(cuid())
+  eventId   String
+  userId    String
+  zone      String?
+  role      String   @default("VOLUNTEER")
+  createdAt DateTime @default(now())
+
+  event Event @relation(fields: [eventId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+}
+
+model CommunicationChannel {
+  id        String   @id @default(cuid())
+  eventId   String
+  name      String
+  createdAt DateTime @default(now())
+
+  event   Event           @relation(fields: [eventId], references: [id])
+  members ChannelMember[]
+}
+
+// ─── NEW: PTT group members ───
+model ChannelMember {
+  id        String   @id @default(cuid())
+  channelId String
+  userId    String
+  joinedAt  DateTime @default(now())
+
+  channel CommunicationChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  user    User                 @relation(fields: [userId], references: [id])
+
+  @@unique([channelId, userId])
+}
+
+// ─── NEW: Geo-fence exit exceptions granted by admin ───
+model GeoFenceException {
+  id        String   @id @default(cuid())
+  eventId   String
+  userId    String
+  grantedBy String
+  reason    String?
+  grantedAt DateTime @default(now())
+
+  event   Event @relation(fields: [eventId], references: [id])
+  subject User  @relation("GeoFenceSubject", fields: [userId], references: [id])
+  granter User  @relation("GeoFenceGranter", fields: [grantedBy], references: [id])
+
+  @@unique([eventId, userId])
 }

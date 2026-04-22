@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getRootMetrics, getOrgMetrics, getPendingUsers, approveUser, getAllUsers, suspendOrganization, modifyUserIAM, getAuditLogs, getFeatureToggles, toggleFeature, getSubscriptions, emergencyHaltEvent, getSupportTickets, getSystemNotifications, broadcastNotification, getSecurityEvents, getPlatformSettings, getSystemHealthLayer, getOrganizationDetails, getPublicEvents } from '../controllers/dashboard.controller';
+import { getRootMetrics, getPendingUsers, approveUser, getAllUsers, suspendOrganization, modifyUserIAM, getAuditLogs, getFeatureToggles, toggleFeature, getSubscriptions, emergencyHaltEvent, getSupportTickets, getSystemNotifications, broadcastNotification, getSecurityEvents, getPlatformSettings, getSystemHealthLayer, getOrganizationDetails, getPublicEvents } from '../controllers/dashboard.controller';
 import { authenticateJWT, requireRole } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -31,7 +31,6 @@ router.get('/root/security', authenticateJWT, requireRole(['ROOT_ADMIN']), getSe
 router.get('/root/settings', authenticateJWT, requireRole(['ROOT_ADMIN']), getPlatformSettings);
 router.get('/root/health', authenticateJWT, requireRole(['ROOT_ADMIN']), getSystemHealthLayer);
 
-// Org Admin Only
-router.get('/org/metrics', authenticateJWT, requireRole(['ORG_ADMIN']), getOrgMetrics);
+// Org Admin metrics now served by /dashboard/org/* via org.routes
 
 export default router;

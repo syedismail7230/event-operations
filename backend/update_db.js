@@ -1,0 +1,10 @@
+const cp = require('child_process');
+const fs = require('fs');
+const token = cp.execSync('aws rds generate-db-auth-token --hostname database-1-instance-1.cp6yc8yksy1t.ap-southeast-2.rds.amazonaws.com --port 5432 --region ap-southeast-2 --username postgres').toString().trim();
+const encodedAuth = encodeURIComponent(token);
+const envPath = './.env';
+let envContent = fs.readFileSync(envPath, 'utf8');
+const newUrl = `DATABASE_URL="postgresql://postgres:${encodedAuth}@database-1-instance-1.cp6yc8yksy1t.ap-southeast-2.rds.amazonaws.com:5432/postgres?schema=public&sslmode=require"`;
+envContent = envContent.replace(/^DATABASE_URL=.*$/m, newUrl);
+fs.writeFileSync(envPath, envContent);
+console.log('Successfully updated .env with new AWS IAM auth token.');

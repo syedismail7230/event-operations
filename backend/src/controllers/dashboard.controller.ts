@@ -1,9 +1,9 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/auth.middleware';
-import { PrismaClient } from '@prisma/client';
+
 import os from 'os';
 
-const prisma = new PrismaClient() as any;
+import prisma from '../lib/prisma';
 import { io } from '../server';
 
 export const getRootMetrics = async (req: AuthRequest, res: Response): Promise<void> => {
@@ -79,7 +79,7 @@ export const getRootMetrics = async (req: AuthRequest, res: Response): Promise<v
 
 export const getOrganizationDetails = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const org = await prisma.organization.findUnique({
       where: { id },
       include: {

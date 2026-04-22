@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { admin } from '../lib/firebase-admin';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+
+import prisma from '../lib/prisma';
 
 export interface AuthRequest extends Request {
   user?: { id: string; role: string; organizationId: string | null };
