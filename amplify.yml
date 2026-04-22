@@ -3,9 +3,7 @@ frontend:
   phases:
     build:
       commands:
-        - cd frontend
-        - npm ci
-        - npm run build
+        - cd frontend && npm ci && npm run build
   artifacts:
     baseDirectory: frontend/.next
     files:
