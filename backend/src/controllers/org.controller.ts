@@ -245,6 +245,69 @@ export const createCheckIn = async (req: AuthRequest, res: Response): Promise<vo
 };
 
 // ─────────────────────────────────────────────────────────────
+// QR SCAN CHECK-IN/OUT (Volunteer scans attendee QR)
+// Enforces: first scan = IN, second scan = OUT, alternating
+// ─────────────────────────────────────────────────────────────
+export const qrScanCheckIn = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const orgId = req.user?.organizationId;
+    if (!orgId) { res.status(403).json({ error: 'No organization attached.' }); return; }
+
+    const { scannedUserId } = req.body;
+    if (!scannedUserId) { res.status(400).json({ error: 'scannedUserId is required.' }); return; }
+
+    // Verify scanned user exists and belongs to this org
+    const attendee = await prisma.user.findFirst({
+      where: { id: scannedUserId, organizationId: orgId },
+      select: { id: true, name: true, email: true }
+    });
+    if (!attendee) { res.status(404).json({ error: 'Attendee not found in your organization.' }); return; }
+
+    // Find the currently active/upcoming event for this org
+    const now = new Date();
+    const activeEvent = await prisma.event.findFirst({
+      where: {
+        organizationId: orgId,
+        startTime: { lte: new Date(now.getTime() + 60 * 60 * 1000) }, // within 1 hour of start
+        endTime: { gte: now }
+      },
+      orderBy: { startTime: 'asc' }
+    });
+    if (!activeEvent) { res.status(400).json({ error: 'No active event found. Check-in is only available during events.' }); return; }
+
+    // Find latest check-in for this user on this event
+    const lastCI = await prisma.eventCheckIn.findFirst({
+      where: { userId: scannedUserId, eventId: activeEvent.id },
+      orderBy: { timestamp: 'desc' }
+    });
+
+    // Toggle: if last was IN → record OUT; if last was OUT or none → record IN
+    const newDirection = (!lastCI || lastCI.direction === 'OUT') ? 'IN' : 'OUT';
+
+    const checkIn = await prisma.eventCheckIn.create({
+      data: { eventId: activeEvent.id, userId: scannedUserId, direction: newDirection },
+      include: {
+        user: { select: { id: true, name: true, email: true, role: true } },
+        event: { select: { id: true, name: true } }
+      }
+    });
+
+    io.to(`org_${orgId}`).emit('checkin_created', checkIn);
+
+    res.status(201).json({
+      message: newDirection === 'IN' ? 'Checked IN successfully' : 'Checked OUT successfully',
+      direction: newDirection,
+      attendeeName: attendee.name,
+      eventName: activeEvent.name,
+      checkIn
+    });
+  } catch (e) {
+    console.error('[QRScan] Error:', e);
+    res.status(500).json({ error: 'Failed to process QR scan' });
+  }
+};
+
+// ─────────────────────────────────────────────────────────────
 // INCIDENTS
 // ─────────────────────────────────────────────────────────────
 export const getOrgIncidents = async (req: AuthRequest, res: Response): Promise<void> => {
@@ -744,3 +807,131 @@ export const createOrgSupportTicket = async (req: AuthRequest, res: Response): P
     res.status(500).json({ error: 'Failed to create ticket' });
   }
 };
+
+// ─────────────────────────────────────────────────────────────
+// EVENT ACCESS CODES (admin creates, volunteer redeems)
+// ─────────────────────────────────────────────────────────────
+
+// Generate a short readable code: e.g. HKBK-4829
+function generateCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  return `${code}-${Math.floor(1000 + Math.random() * 9000)}`;
+}
+
+export const getAccessCodes = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const orgId = req.user?.organizationId;
+    const codes = await (prisma.eventAccessCode as any).findMany({
+      where: { event: { organizationId: orgId! } },
+      include: {
+        event: { select: { id: true, name: true } },
+        creator: { select: { id: true, name: true } }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(codes);
+  } catch (e) { res.status(500).json({ error: 'Failed to fetch codes' }); }
+};
+
+export const createAccessCode = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { eventId, maxUses, expiresAt } = req.body;
+    const createdBy = req.user!.id;
+    const orgId = req.user?.organizationId;
+
+    // Verify event belongs to org
+    const event = await prisma.event.findFirst({ where: { id: eventId, organizationId: orgId! } });
+    if (!event) { res.status(404).json({ error: 'Event not found.' }); return; }
+
+    let code = generateCode();
+    // Ensure uniqueness
+    let attempts = 0;
+    while (attempts < 10) {
+      const exists = await (prisma.eventAccessCode as any).findUnique({ where: { code } });
+      if (!exists) break;
+      code = generateCode();
+      attempts++;
+    }
+
+    const ac = await (prisma.eventAccessCode as any).create({
+      data: { code, eventId, createdBy, maxUses: maxUses || 100, expiresAt: expiresAt ? new Date(expiresAt) : null },
+      include: { event: { select: { id: true, name: true } } }
+    });
+    res.status(201).json(ac);
+  } catch (e) { res.status(500).json({ error: 'Failed to create code' }); }
+};
+
+export const deleteAccessCode = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { codeId } = req.params;
+    await (prisma.eventAccessCode as any).delete({ where: { id: codeId } });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: 'Failed to delete code' }); }
+};
+
+// ─── Volunteer redeems a code (no org required, just JWT) ────
+export const redeemAccessCode = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { code } = req.body;
+    const userId = req.user!.id;
+
+    if (!code?.trim()) { res.status(400).json({ error: 'Code is required.' }); return; }
+
+    const ac = await (prisma.eventAccessCode as any).findUnique({
+      where: { code: code.trim().toUpperCase() },
+      include: { event: { select: { id: true, name: true, organizationId: true, startTime: true, endTime: true } } }
+    });
+
+    if (!ac) { res.status(404).json({ error: 'Invalid code. Check with your event admin.' }); return; }
+    if (ac.usedCount >= ac.maxUses) { res.status(410).json({ error: 'This code has reached its maximum usage limit.' }); return; }
+    if (ac.expiresAt && new Date() > new Date(ac.expiresAt)) { res.status(410).json({ error: 'This code has expired.' }); return; }
+
+    // Block privileged users from accidentally downgrading their role
+    const PROTECTED_ROLES = ['ORG_ADMIN', 'ROOT_ADMIN', 'MANAGER'];
+    if (PROTECTED_ROLES.includes(req.user!.role)) {
+      res.status(403).json({ error: 'Admins and managers cannot redeem volunteer access codes.' });
+      return;
+    }
+
+    // Check if already assigned to this event
+    const existing = await prisma.eventPersonnel.findFirst({ where: { eventId: ac.eventId, userId } });
+    if (existing) {
+      res.json({ success: true, event: ac.event, alreadyAssigned: true });
+      return;
+    }
+
+    // Assign volunteer to event
+    await prisma.eventPersonnel.create({
+      data: { eventId: ac.eventId, userId, role: 'VOLUNTEER' }
+    });
+
+    // Link volunteer to org — only update role for plain attendees/new users
+    const roleToSet = req.user!.role === 'ATTENDEE' ? 'VOLUNTEER' : req.user!.role;
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        organizationId: ac.event.organizationId,
+        role: roleToSet,
+        status: 'ACTIVE'
+      }
+    });
+
+    // Increment usage count
+    await (prisma.eventAccessCode as any).update({
+      where: { id: ac.id },
+      data: { usedCount: { increment: 1 } }
+    });
+
+    await prisma.auditLog.create({
+      data: { action: 'VOLUNTEER_JOINED', targetType: 'Event', targetId: ac.eventId, actorId: userId, details: `Joined via access code ${code}` }
+    });
+
+    res.json({ success: true, event: ac.event, alreadyAssigned: false });
+  } catch (e) {
+    console.error('[AccessCode] Redeem error:', e);
+    res.status(500).json({ error: 'Failed to redeem code' });
+  }
+};
+

@@ -66,7 +66,7 @@ function isInsidePolygon(point: [number, number], polygon: [number, number][]): 
 
 // Track active geo violations to avoid spam: key = userId_eventId
 const violationCooldown = new Map<string, number>();
-const GEO_ALERT_INTERVAL_MS = 30_000; // alert org every 30s per violation
+const GEO_ALERT_INTERVAL_MS = 20_000; // alert org every 20s per violation
 
 // In-memory real-time position store: orgId → userId → position
 const livePositions = new Map<string, Map<string, { lat: number; lng: number; user: any; updatedAt: string }>>();
@@ -143,75 +143,47 @@ io.on('connection', (socket) => {
       io.to(`org_${orgId}`).emit('user_location', { userId, lat, lng, user, updatedAt: new Date().toISOString() });
 
       // ─── Geo-fence violation check ───────────────────────────
-      const events = await (prisma.event as any).findMany({
+      // Check user against EVERY geo-fenced event in the org.
+      // No check-in required — any org member outside a boundary triggers an alert.
+
+      const geoEvents = await (prisma.event as any).findMany({
         where: { organizationId: orgId },
         select: { id: true, name: true, geoBoundary: true }
       });
 
-      // Check each event the user has an active check-in for
-      const activeCheckIns = await prisma.eventCheckIn.findMany({
-        where: { userId },
-        orderBy: { timestamp: 'desc' },
-        include: { event: { select: { id: true, name: true } } }
-      });
-
-      // Latest check-in per event
-      const latestByEvent = new Map<string, any>();
-      for (const ci of activeCheckIns) {
-        if (!latestByEvent.has(ci.eventId)) latestByEvent.set(ci.eventId, ci);
-      }
-
-      // Get all geo-fence exceptions for this user
-      const exceptions = await (prisma.geoFenceException as any).findMany({
-        where: { userId }
-      });
+      const exceptions = await (prisma.geoFenceException as any).findMany({ where: { userId } });
       const allowedEventIds = new Set(exceptions.map((e: any) => e.eventId));
 
-      for (const [eventId, ci] of latestByEvent.entries()) {
-        if (ci.direction !== 'IN') continue; // Already checked out
-        if (allowedEventIds.has(eventId)) continue; // Admin granted exit
-
-        const ev = events.find((e: any) => e.id === eventId);
-        if (!ev?.geoBoundary) continue;
+      for (const ev of geoEvents) {
+        if (!ev.geoBoundary) continue;
+        if (allowedEventIds.has(ev.id)) continue;
 
         let boundary: [number, number][];
         try { boundary = JSON.parse(ev.geoBoundary); } catch { continue; }
         if (boundary.length < 3) continue;
 
         const inside = isInsidePolygon([lat, lng], boundary);
+        console.log(`[GeoFence] ${user?.name} @ [${lat.toFixed(5)},${lng.toFixed(5)}] → "${ev.name}": ${inside ? 'INSIDE ✓' : 'OUTSIDE ⚠️'}`);
 
         if (!inside) {
-          const key = `${userId}_${eventId}`;
+          const key = `${userId}_${ev.id}`;
           const now = Date.now();
           const lastAlert = violationCooldown.get(key) || 0;
-
           if (now - lastAlert >= GEO_ALERT_INTERVAL_MS) {
             violationCooldown.set(key, now);
-
-            // Get user details
-            const user = await prisma.user.findUnique({
-              where: { id: userId },
-              select: { id: true, name: true, email: true, phone: true, role: true }
-            });
-
+            console.log(`[GeoFence] 🚨 VIOLATION — emitting geo_violation to org_${orgId}`);
             io.to(`org_${orgId}`).emit('geo_violation', {
-              userId,
-              user,
-              eventId,
-              eventName: ev.name,
-              lat,
-              lng,
-              timestamp: new Date().toISOString(),
-              message: `⚠️ ${user?.name} has exited the geo-fence of "${ev.name}"`,
+              userId, user, eventId: ev.id, eventName: ev.name,
+              lat, lng, timestamp: new Date().toISOString(),
+              message: `⚠️ ${user?.name} is outside the geo-fence of "${ev.name}"`,
             });
           }
         } else {
-          // User came back inside — clear cooldown
-          violationCooldown.delete(`${userId}_${eventId}`);
+          violationCooldown.delete(`${userId}_${ev.id}`);
         }
       }
     } catch (err) {
-      console.error('[GeoFence] Error processing location update:', err);
+      console.error('[GeoFence] Error:', err);
     }
   });
 

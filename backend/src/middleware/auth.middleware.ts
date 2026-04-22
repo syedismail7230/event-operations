@@ -19,7 +19,9 @@ export const authenticateJWT = async (req: AuthRequest, res: Response, next: Nex
       // 1. Try resolving Local JWT
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'super-secret-key-for-dev') as any;
-        req.user = { id: decoded.id, role: decoded.role, organizationId: decoded.organizationId };
+        const dbUser = await prisma.user.findUnique({ where: { id: decoded.id } });
+        if (!dbUser) { res.status(403).json({ error: 'User no longer exists' }); return; }
+        req.user = { id: dbUser.id, role: dbUser.role, organizationId: dbUser.organizationId };
         return next();
       } catch (jwtErr) {
         // Fallthrough if it's not a local JSON token

@@ -36,6 +36,7 @@ model User {
   channelMemberships ChannelMember[]
   geoExceptions     GeoFenceException[] @relation("GeoFenceSubject")
   geoGranted        GeoFenceException[] @relation("GeoFenceGranter")
+  accessCodesCreated EventAccessCode[]  @relation("AccessCodeCreator")
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
 }
@@ -59,6 +60,7 @@ model Event {
   personnel      EventPersonnel[]
   channels       CommunicationChannel[]
   geoExceptions  GeoFenceException[]
+  accessCodes    EventAccessCode[]
 }
 
 model AuditLog {
@@ -172,7 +174,20 @@ model ChannelMember {
   @@unique([channelId, userId])
 }
 
-// ─── NEW: Geo-fence exit exceptions granted by admin ───
+// ─── Volunteer Event Access Codes ───
+model EventAccessCode {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  eventId   String
+  createdBy String
+  maxUses   Int       @default(100)
+  usedCount Int       @default(0)
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+
+  event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  creator User  @relation("AccessCodeCreator", fields: [createdBy], references: [id])
+}
 model GeoFenceException {
   id        String   @id @default(cuid())
   eventId   String
