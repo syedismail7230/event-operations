@@ -4,7 +4,7 @@ import { Signer } from '@aws-sdk/rds-signer';
 let activeClient: PrismaClient | null = null;
 
 const region = 'ap-southeast-2';
-const hostname = 'database-1-instance-1.cp6yc8yksy1t.ap-southeast-2.rds.amazonaws.com';
+const hostname = 'database-1.cluster-cp6yc8yksy1t.ap-southeast-2.rds.amazonaws.com';
 const port = 5432;
 const username = 'postgres';
 
@@ -12,7 +12,7 @@ async function instantiateNewClient(): Promise<PrismaClient> {
   const signer = new Signer({ hostname, port, username, region });
   const token = await signer.getAuthToken();
   const encodedToken = encodeURIComponent(token);
-  const url = `postgresql://${username}:${encodedToken}@${hostname}:${port}/postgres?schema=public&sslmode=require`;
+  const url = `postgresql://${username}:${encodedToken}@${hostname}:${port}/postgres?sslmode=require`;
 
   const client = new PrismaClient({ datasources: { db: { url } } });
   await client.$connect();
