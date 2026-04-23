@@ -19,7 +19,7 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/auth/login', {
+      const res = await fetch(`${API}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -62,7 +62,7 @@ export default function LoginPage() {
       const result = await signInWithPopup(auth, googleProvider);
       const token = await result.user.getIdToken();
       
-      const response = await fetch('${process.env.NEXT_PUBLIC_API_URL}/auth/sync', {
+      const response = await fetch(`${API}/auth/sync`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
