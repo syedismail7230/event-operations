@@ -9,7 +9,7 @@ export default function FeatureTogglesPage() {
   useEffect(() => {
     const fetchToggles = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/features', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/features`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (res.ok) setFeatures(await res.json());
@@ -24,7 +24,7 @@ export default function FeatureTogglesPage() {
 
   const handleToggle = async (key: string, currentVal: boolean) => {
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/features/toggle', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/features/toggle`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -62,3 +62,4 @@ export default function FeatureTogglesPage() {
     </div>
   );
 }
+

@@ -25,10 +25,10 @@ export default function RootDashboard() {
     const fetchData = async () => {
       try {
         const [metricsRes, pendingRes] = await Promise.all([
-          fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/metrics', {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/metrics`, {
             headers: { 'Authorization': `Bearer ${token}` }
           }),
-          fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/pending-users', {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/pending-users`, {
             headers: { 'Authorization': `Bearer ${token}` }
           })
         ]);
@@ -48,7 +48,7 @@ export default function RootDashboard() {
   const handleApprove = async (userId: string) => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/approve-user', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/approve-user`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -179,3 +179,4 @@ export default function RootDashboard() {
     </div>
   );
 }
+

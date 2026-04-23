@@ -8,7 +8,7 @@ export default function SystemHealthPage() {
   useEffect(() => {
     const fetchHealth = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/health', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/health`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (res.ok) setHealth(await res.json());
@@ -41,3 +41,4 @@ export default function SystemHealthPage() {
     </div>
   );
 }
+

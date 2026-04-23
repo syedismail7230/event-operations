@@ -16,7 +16,7 @@ export default function AttendeeTicket() {
   const fetchTickets = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/public/tickets', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/public/tickets`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -108,3 +108,4 @@ export default function AttendeeTicket() {
     </div>
   );
 }
+

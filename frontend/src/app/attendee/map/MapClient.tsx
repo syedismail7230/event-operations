@@ -57,7 +57,7 @@ export default function MapClient({ initialLat = 0, initialLng = 0 }) {
     const fetchTickets = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/public/tickets', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/public/tickets`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.ok) {
@@ -164,3 +164,4 @@ export default function MapClient({ initialLat = 0, initialLng = 0 }) {
     </div>
   );
 }
+

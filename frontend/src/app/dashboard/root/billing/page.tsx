@@ -9,7 +9,7 @@ export default function SubscriptionsPage() {
   useEffect(() => {
     const fetchSubs = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/billing', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/billing`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (res.ok) setSubs(await res.json());
@@ -56,3 +56,4 @@ export default function SubscriptionsPage() {
     </div>
   );
 }
+

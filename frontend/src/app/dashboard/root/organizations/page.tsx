@@ -19,7 +19,7 @@ export default function OrganizationsPage() {
 
     const fetchData = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/metrics', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/metrics`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -42,7 +42,7 @@ export default function OrganizationsPage() {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/organization/suspend', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/organization/suspend`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -139,3 +139,4 @@ export default function OrganizationsPage() {
     </div>
   );
 }
+

@@ -9,7 +9,7 @@ export default function SupportTicketsPage() {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/support', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/support`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (res.ok) setTickets(await res.json());
@@ -50,3 +50,4 @@ export default function SupportTicketsPage() {
     </div>
   );
 }
+

@@ -51,7 +51,7 @@ export default function OrgOverview() {
 
   const fetchOrgData = async (token: string) => {
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/org/metrics', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/org/metrics`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
       if (res.ok) setMetrics(await res.json());
@@ -207,3 +207,4 @@ export default function OrgOverview() {
     </div>
   );
 }
+

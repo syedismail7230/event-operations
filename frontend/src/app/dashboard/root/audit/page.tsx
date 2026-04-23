@@ -9,7 +9,7 @@ export default function AuditLogsPage() {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/audit', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/audit`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (res.ok) setLogs(await res.json());
@@ -54,3 +54,4 @@ export default function AuditLogsPage() {
     </div>
   );
 }
+

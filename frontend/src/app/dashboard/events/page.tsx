@@ -14,7 +14,7 @@ export default function ActiveEventsPage() {
         const token = localStorage.getItem('token');
         if (!token) { router.push('/login'); return; }
 
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/public/events', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/public/events`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -61,3 +61,4 @@ export default function ActiveEventsPage() {
     </div>
   );
 }
+

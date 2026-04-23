@@ -18,7 +18,7 @@ export default function VolunteerApp() {
       // Simulated scan of an attendee's QR
       const scannedAttendeeId = `USR_${Math.floor(Math.random() * 9000) + 1000}`;
       
-      const response = await fetch('${process.env.NEXT_PUBLIC_API_URL}/event/check-in', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/check-in`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,3 +87,4 @@ export default function VolunteerApp() {
     </div>
   );
 }
+

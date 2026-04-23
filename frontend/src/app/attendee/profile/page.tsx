@@ -37,7 +37,7 @@ export default function AttendeeProfile() {
     setSaving(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/public/profile', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/public/profile`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -67,7 +67,7 @@ export default function AttendeeProfile() {
       const token = localStorage.getItem('token');
       
       // Fetch tickets to get active eventId
-      const ticketsRes = await fetch('${process.env.NEXT_PUBLIC_API_URL}/public/tickets', {
+      const ticketsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/public/tickets`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const tickets = await ticketsRes.json();
@@ -92,7 +92,7 @@ export default function AttendeeProfile() {
         }
       }
 
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/public/emergency', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/public/emergency`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -260,3 +260,4 @@ export default function AttendeeProfile() {
     </div>
   );
 }
+

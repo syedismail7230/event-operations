@@ -9,7 +9,7 @@ export default function SecurityPage() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/security', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/security`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (res.ok) setEvents(await res.json());
@@ -52,3 +52,4 @@ export default function SecurityPage() {
     </div>
   );
 }
+

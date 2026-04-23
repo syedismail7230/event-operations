@@ -17,7 +17,7 @@ export default function GlobalEventsPage() {
 
     const fetchEvents = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/metrics', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/metrics`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -37,7 +37,7 @@ export default function GlobalEventsPage() {
   const handleEmergencyHalt = async (eventId: string) => {
     if (!confirm('EXTREME DANGER: This will instantly disconnect all live WebSockets for thousands of attendees. Execute?')) return;
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/events/halt', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/events/halt`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -113,3 +113,4 @@ export default function GlobalEventsPage() {
     </div>
   );
 }
+

@@ -19,7 +19,7 @@ export default function UsersPage() {
 
     const fetchUsers = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/all-users', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/all-users`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -38,7 +38,7 @@ export default function UsersPage() {
     if (!confirm(`Are you sure you want to execute ${action} on this identity?`)) return;
 
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/users/iam', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/users/iam`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -146,3 +146,4 @@ export default function UsersPage() {
     </div>
   );
 }
+

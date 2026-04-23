@@ -41,7 +41,7 @@ export default function AttendeeHome() {
 
   const fetchEvents = async () => {
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/public/events');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/public/events`);
       if (res.ok) {
         const data = await res.json();
         setEvents(data);
@@ -319,3 +319,4 @@ export default function AttendeeHome() {
     </div>
   );
 }
+

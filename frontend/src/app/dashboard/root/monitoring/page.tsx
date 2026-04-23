@@ -16,7 +16,7 @@ export default function NOCMonitoringPage() {
 
     const fetchTelemetry = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/metrics', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/metrics`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -108,3 +108,4 @@ export default function NOCMonitoringPage() {
     </div>
   );
 }
+

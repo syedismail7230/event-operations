@@ -9,7 +9,7 @@ export default function PlatformSettingsPage() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/settings', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/settings`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (res.ok) setSettings(await res.json());
@@ -36,3 +36,4 @@ export default function PlatformSettingsPage() {
     </div>
   );
 }
+

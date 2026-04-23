@@ -9,7 +9,7 @@ export default function NotificationsPage() {
   useEffect(() => {
     const fetchNotifs = async () => {
       try {
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/notifications', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/notifications`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (res.ok) setNotifs(await res.json());
@@ -23,7 +23,7 @@ export default function NotificationsPage() {
   const handleBroadcast = async () => {
     if(!msg) return;
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/notifications/broadcast', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/root/notifications/broadcast`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -70,3 +70,4 @@ export default function NotificationsPage() {
     </div>
   );
 }
+

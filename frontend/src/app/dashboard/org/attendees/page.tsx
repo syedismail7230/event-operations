@@ -15,7 +15,7 @@ export default function AttendeeApprovalPipeline() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/dashboard/org/users', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/org/users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) setUsers(await res.json());
@@ -125,3 +125,4 @@ export default function AttendeeApprovalPipeline() {
     </div>
   );
 }
+
